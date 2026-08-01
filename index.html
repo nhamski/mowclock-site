@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MowClock - Time Tracking for the Field</title>
+  <meta name="description" content="Clock in. Get paid. Go home. MowClock is the time-tracking PWA built for self-employed lawn care, landscaping, and trades workers.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&display=swap" rel="stylesheet">
+
+  <!-- GA4 placeholder -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    /* ============================================
+       CSS RESET
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img, svg { display: block; max-width: 100%; }
+    button, input, textarea { font: inherit; }
+
+    /* ============================================
+       DESIGN TOKENS — LIGHT (default)
+       ============================================ */
+    :root {
+      --paper: #faf6ee;
+      --paper-raised: #fffdf8;
+      --paper-sunk: #f0e9db;
+      --line: #e3d9c6;
+      --line-strong: #d3c6ab;
+      --ink: #2a2118;
+      --ink-2: #5d5241;
+      --ink-3: #8c7f66;
+      --accent: #2d6a4f;
+      --accent-soft: #40916c;
+      --accent-wash: #d8f3dc;
+      --accent-dark: #1b4332;
+      --brass: #a9762c;
+      --brass-wash: #f3e7cf;
+
+      --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+      --max-w: 1120px;
+      --gutter: 1.25rem;
+      --radius: 0.5rem;
+      --radius-lg: 1rem;
+    }
+
+    /* ============================================
+       DARK MODE — media query
+       ============================================ */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #1c150e;
+        --paper-raised: #251c12;
+        --paper-sunk: #171009;
+        --line: #392c1d;
+        --line-strong: #4a3a26;
+        --ink: #f4eede;
+        --ink-2: #cbbda3;
+        --ink-3: #9c8e74;
+        --accent: #52b788;
+        --accent-soft: #74c69d;
+        --accent-wash: #1a3326;
+        --accent-dark: #95d5b2;
+        --brass: #d3a24f;
+        --brass-wash: #33260f;
+      }
+    }
+
+    /* DARK MODE — data-theme attribute */
+    :root[data-theme="dark"] {
+      --paper: #1c150e;
+      --paper-raised: #251c12;
+      --paper-sunk: #171009;
+      --line: #392c1d;
+      --line-strong: #4a3a26;
+      --ink: #f4eede;
+      --ink-2: #cbbda3;
+      --ink-3: #9c8e74;
+      --accent: #52b788;
+      --accent-soft: #74c69d;
+      --accent-wash: #1a3326;
+      --accent-dark: #95d5b2;
+      --brass: #d3a24f;
+      --brass-wash: #33260f;
+    }
+
+    /* ============================================
+       GLOBAL
+       ============================================ */
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    body {
+      font-family: var(--sans);
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: var(--serif);
+      line-height: 1.2;
+      color: var(--ink);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    a:hover { color: var(--accent-dark); }
+
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--gutter);
+    }
+
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-label {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      font-size: 1.1rem;
+      color: var(--ink-2);
+      max-width: 38rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(45, 106, 79, 0.25);
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(45, 106, 79, 0.35);
+    }
+
+    .btn-secondary {
+      background: var(--accent-wash);
+      color: var(--accent-dark);
+      border: 1px solid var(--accent-soft);
+    }
+    .btn-secondary:hover {
+      background: var(--accent-soft);
+      color: #fff;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1px solid var(--line);
+    }
+    .btn-ghost:hover {
+      background: var(--paper-sunk);
+      border-color: var(--line-strong);
+      color: var(--ink);
+    }
+
+    .btn-lg {
+      padding: 1rem 2.25rem;
+      font-size: 1.125rem;
+      border-radius: var(--radius-lg);
+    }
+
+    /* ============================================
+       NAV
+       ============================================ */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 3.75rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.625rem;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .nav-logo {
+      width: 2.25rem;
+      height: 2.25rem;
+      background: var(--accent);
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .nav-name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.25rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      list-style: none;
+    }
+
+    .nav-link {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink-2);
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--ink); }
+
+    .nav-auth-btn {
+      font-size: 0.875rem;
+      padding: 0.5rem 1.125rem;
+    }
+
+    .nav-user-pill {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.25rem 0.875rem 0.25rem 0.25rem;
+      background: var(--paper-sunk);
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      color: var(--ink-2);
+      cursor: default;
+    }
+    .nav-user-pill img {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 50%;
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+      color: var(--ink);
+    }
+    .nav-toggle svg { width: 1.5rem; height: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--paper-raised);
+        border-bottom: 1px solid var(--line);
+        padding: 1rem var(--gutter);
+        gap: 0.75rem;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      }
+      .nav-links.open { display: flex; }
+      .nav-link { font-size: 1rem; }
+    }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      padding: 6rem 0 5rem;
+      text-align: center;
+      background: linear-gradient(180deg, var(--accent-wash) 0%, var(--paper) 100%);
+    }
+
+    .hero-eyebrow {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.25rem, 6vw, 3.75rem);
+      font-weight: 800;
+      max-width: 42rem;
+      margin: 0 auto 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+      color: var(--ink-2);
+      max-width: 34rem;
+      margin: 0 auto 2.5rem;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-note {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--ink-3);
+    }
+
+    /* ============================================
+       HOW IT WORKS
+       ============================================ */
+    .how-it-works { background: var(--paper); }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 640px) {
+      .steps-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    }
+
+    .step-card {
+      background: var(--paper-raised);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      position: relative;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .step-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      font-size: 1.125rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-icon {
+      font-size: 2.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-desc {
+      font-size: 0.95rem;
+      color: var(--ink-2);
+      line-height: 1.55;
+    }
+
+    /* ============================================
+       FEATURES
+       ============================================ */
+    .features-section {
+      background: var(--paper-sunk);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: var(--paper-raised);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 1.5rem;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .feature-card:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 3rem;
+      height: 3rem;
+      background: var(--accent-wash);
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-family: var(--sans);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.375rem;
+    }
+
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      line-height: 1.55;
+    }
+
+    /* ============================================
+       INSTALL CTA
+       ============================================ */
+    .install-section {
+      background: var(--accent);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .install-section::before {
+      content: "";
+      position: absolute;
+      top: -40%;
+      right: -10%;
+      width: 50%;
+      height: 180%;
+      background: radial-gradient(ellipse, rgba(255,255,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .install-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+      .install-inner { grid-template-columns: 1fr; text-align: center; }
+    }
+
+    .install-heading {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .install-subtitle {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .install-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.625rem;
+      padding: 1.125rem 2.5rem;
+      background: #fff;
+      color: var(--accent-dark);
+      font-weight: 700;
+      font-size: 1.2rem;
+      border-radius: var(--radius-lg);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .install-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      color: var(--accent-dark);
+    }
+
+    .install-instructions {
+      background: rgba(0,0,0,0.15);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+    }
+
+    .install-instructions h3 {
+      font-size: 1.125rem;
+      color: #fff;
+      margin-bottom: 1.25rem;
+    }
+
+    .install-platform {
+      margin-bottom: 1.25rem;
+    }
+    .install-platform:last-child { margin-bottom: 0; }
+
+    .install-platform-label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .install-platform ol {
+      padding-left: 1.5rem;
+      font-size: 0.9rem;
+      opacity: 0.9;
+      line-height: 1.7;
+    }
+
+    /* ============================================
+       PRICING
+       ============================================ */
+    .pricing-section {
+      background: var(--paper);
+      text-align: center;
+    }
+
+    .pricing-card {
+      max-width: 28rem;
+      margin: 0 auto;
+      background: var(--paper-raised);
+      border: 2px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+    }
+
+    .pricing-badge {
+      display: inline-block;
+      padding: 0.375rem 1rem;
+      background: var(--brass-wash);
+      color: var(--brass);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-title {
+      font-size: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .pricing-desc {
+      color: var(--ink-2);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-note {
+      font-size: 0.9rem;
+      color: var(--ink-3);
+      margin-top: 1.25rem;
+    }
+
+    /* ============================================
+       BLOG
+       ============================================ */
+    .blog-section {
+      background: var(--paper-sunk);
+    }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .blog-grid { grid-template-columns: 1fr; }
+    }
+
+    .blog-card {
+      background: var(--paper-raised);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .blog-card:hover {
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+    }
+
+    .blog-card-img {
+      width: 100%;
+      height: 10rem;
+      background: var(--accent-wash);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .blog-card-body {
+      padding: 1.5rem;
+    }
+
+    .blog-card-meta {
+      font-size: 0.8rem;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.5rem;
+    }
+
+    .blog-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .blog-card-excerpt {
+      font-size: 0.9rem;
+      color: var(--ink-2);
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    .blog-card-link {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    .blog-card-link:hover { color: var(--accent-dark); }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background: var(--paper-sunk);
+      border-top: 1px solid var(--line);
+      padding: 3rem 0 2rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+
+    .footer-brand {
+      max-width: 16rem;
+    }
+
+    .footer-brand-name {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-brand-desc {
+      font-size: 0.85rem;
+      color: var(--ink-3);
+      line-height: 1.55;
+    }
+
+    .footer-links-group h4 {
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-links-group ul {
+      list-style: none;
+    }
+
+    .footer-links-group li {
+      margin-bottom: 0.375rem;
+    }
+
+    .footer-links-group a {
+      font-size: 0.9rem;
+      color: var(--ink-2);
+    }
+    .footer-links-group a:hover { color: var(--ink); }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.75rem;
+      font-size: 0.8rem;
+      color: var(--ink-3);
+    }
+
+    .footer-1656 {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .footer-inner { flex-direction: column; gap: 1.5rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+
+    /* ============================================
+       UTILITY
+       ============================================ */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .text-center { text-align: center; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       NAV
+       ============================================ -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="container nav-inner">
+      <a href="#" class="nav-brand" aria-label="MowClock home">
+        <span class="nav-logo" aria-hidden="true">&#x1F331;</span>
+        <span class="nav-name">MowClock</span>
+      </a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" onclick="document.getElementById('nav-menu').classList.toggle('open'); this.setAttribute('aria-expanded', this.getAttribute('aria-expanded')==='false')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <span class="sr-only">Menu</span>
+      </button>
+
+      <ul class="nav-links" id="nav-menu">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#install" class="nav-link">Install</a></li>
+        <li><a href="#pricing" class="nav-link">Pricing</a></li>
+        <li><a href="#blog" class="nav-link">Blog</a></li>
+        <li>
+          <button id="sign-in-btn" class="btn btn-ghost nav-auth-btn" onclick="signInWithGoogle()">Sign in</button>
+          <div id="user-pill" class="nav-user-pill">
+            <img id="user-avatar" src="" alt="">
+            <span id="user-name"></span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       HERO
+       ============================================ -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">Time Tracking for the Field</p>
+      <h1 class="hero-title">Clock in. Get paid.<br>Go home.</h1>
+      <p class="hero-subtitle">MowClock is the dead-simple time tracker built for self-employed lawn care, landscaping, and trades workers. No logins to fumble with. No desktop apps you'll never open. Just clock in at the job site and go.</p>
+      <div class="hero-actions">
+        <a href="#install" class="btn btn-primary btn-lg">Install MowClock</a>
+        <a href="#features" class="btn btn-ghost btn-lg">See features</a>
+      </div>
+      <p class="hero-note">Free to use. Works on any phone. No app store required.</p>
+    </div>
+  </section>
+
+  <!-- ============================================
+       HOW IT WORKS
+       ============================================ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <p class="section-label text-center">How It Works</p>
+      <h2 class="section-title text-center">Three steps. That's it.</h2>
+      <p class="section-desc text-center" style="margin-left:auto;margin-right:auto;">No training manual. No onboarding call. If you can tap a button, you can run MowClock.</p>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <p class="step-icon" aria-hidden="true">&#x1F4F2;</p>
+          <h3 class="step-title">Install the PWA</h3>
+          <p class="step-desc">Open the link on your phone and tap "Add to Home Screen." It installs like an app but doesn't go through the app store.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <p class="step-icon" aria-hidden="true">&#x1F4CD;</p>
+          <h3 class="step-title">Clock in at the job site</h3>
+          <p class="step-desc">When you arrive at a geofenced location, one tap clocks you in. GPS confirms you're where you say you are.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <p class="step-icon" aria-hidden="true">&#x1F4CB;</p>
+          <h3 class="step-title">Export your timesheets</h3>
+          <p class="step-desc">Pull reports by day, week, or month. Export to CSV for your accountant, your client, or your records.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FEATURES
+       ============================================ -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <p class="section-label">Features</p>
+      <h2 class="section-title">Built for people who work outside</h2>
+      <p class="section-desc">Every feature exists because a real field worker needed it. Nothing was added for a slide deck.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">&#x1F4CD;</div>
+          <h3 class="feature-title">Geofenced clock-in/out</h3>
+          <p class="feature-desc">Define job sites by location. MowClock knows when you arrive and prompts you to clock in. No more forgetting to start the timer.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">&#x1F6E3;&#xFE0F;</div>
+          <h3 class="feature-title">GPS route tracking</h3>
+          <p class="feature-desc">See exactly where you drove and when. Mileage logs build themselves. Useful for invoicing, taxes, and keeping honest records.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">&#x1F4B0;</div>
+          <h3 class="feature-title">Job costing</h3>
+          <p class="feature-desc">Attach hours to specific clients and properties. Know which jobs make money and which ones eat it.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">&#x1F4C4;</div>
+          <h3 class="feature-title">Timesheet export</h3>
+          <p class="feature-desc">Export clean timesheets to CSV on demand. Weekly, biweekly, monthly. Ready for payroll or client billing.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">&#x1F4F4;</div>
+          <h3 class="feature-title">Offline-capable</h3>
+          <p class="feature-desc">Dead zone in a rural field? No problem. MowClock works offline and syncs when you get signal back.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" aria-hidden="true">&#x1F4F1;</div>
+          <h3 class="feature-title">Works on any phone</h3>
+          <p class="feature-desc">iPhone, Android, old phone, new phone. If it has a browser, it runs MowClock. No app store gatekeeping.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       INSTALL CTA
+       ============================================ -->
+  <section class="install-section" id="install">
+    <div class="container">
+      <div class="install-inner">
+        <div>
+          <h2 class="install-heading">Get MowClock on your phone in 30 seconds</h2>
+          <p class="install-subtitle">MowClock is a Progressive Web App. That means it installs directly from your browser -- no app store, no downloads, no waiting. Tap the button, add to your home screen, and you're clocked in.</p>
+          <a href="https://lawncare-k7xg.onrender.com" class="install-btn" target="_blank" rel="noopener">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Install MowClock
+          </a>
+        </div>
+
+        <div class="install-instructions">
+          <h3>How to install a PWA</h3>
+          <div class="install-platform">
+            <p class="install-platform-label">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.99 2.97 12.5 4.7 9.46C5.55 7.95 7.13 7 8.82 6.97C10.1 6.95 11.32 7.82 12.11 7.82C12.89 7.82 14.37 6.77 15.92 6.93C16.57 6.96 18.39 7.18 19.56 8.89C19.47 8.95 17.09 10.34 17.12 13.18C17.15 16.56 20.07 17.69 20.1 17.7C20.07 17.78 19.64 19.22 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+              iPhone / iPad (Safari)
+            </p>
+            <ol>
+              <li>Open the link above in Safari</li>
+              <li>Tap the Share button (square with arrow)</li>
+              <li>Scroll down, tap "Add to Home Screen"</li>
+              <li>Tap "Add" -- done!</li>
+            </ol>
+          </div>
+          <div class="install-platform">
+            <p class="install-platform-label">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 2.246l-1.997 3.466a9.036 9.036 0 00-7.052 0L6.477 2.246a.39.39 0 00-.675.388l1.96 3.4A8.93 8.93 0 003 13.5h18a8.93 8.93 0 00-4.762-7.466l1.96-3.4a.39.39 0 00-.675-.388zM8.5 11a1 1 0 110-2 1 1 0 010 2zm7 0a1 1 0 110-2 1 1 0 010 2zM3 14.5v6A1.5 1.5 0 004.5 22h1A1.5 1.5 0 007 20.5v-6H3zm14 0v6a1.5 1.5 0 001.5 1.5h1a1.5 1.5 0 001.5-1.5v-6h-4z"/></svg>
+              Android (Chrome)
+            </p>
+            <ol>
+              <li>Open the link above in Chrome</li>
+              <li>Tap the three-dot menu (top right)</li>
+              <li>Tap "Install app" or "Add to Home screen"</li>
+              <li>Confirm -- MowClock appears on your home screen</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PRICING
+       ============================================ -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <p class="section-label">Pricing</p>
+      <h2 class="section-title">Simple, fair pricing</h2>
+      <p class="section-desc" style="margin-left:auto;margin-right:auto;text-align:center;">We're finalizing pricing now. What we can tell you: it will be straightforward, and early adopters will be rewarded.</p>
+
+      <div class="pricing-card">
+        <div class="pricing-badge">Coming Soon</div>
+        <h3 class="pricing-title">Pricing coming soon</h3>
+        <p class="pricing-desc">We're building MowClock alongside real field workers to get the price right. No surprises, no hidden fees, no enterprise upsell.</p>
+        <a href="#install" class="btn btn-primary">Get started free</a>
+        <p class="pricing-note">Early adopters get founding member rates -- locked in for life.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       BLOG
+       ============================================ -->
+  <section class="blog-section" id="blog">
+    <div class="container">
+      <p class="section-label">Blog</p>
+      <h2 class="section-title">From the field</h2>
+      <p class="section-desc">Notes on running a solo operation, staying productive, and keeping more of what you earn.</p>
+
+      <div class="blog-grid">
+        <article class="blog-card">
+          <div class="blog-card-img" aria-hidden="true">&#x23F1;&#xFE0F;</div>
+          <div class="blog-card-body">
+            <p class="blog-card-meta">Productivity</p>
+            <h3 class="blog-card-title">Why most time-tracking apps fail field workers</h3>
+            <p class="blog-card-excerpt">Desktop-first time trackers were built for people who sit at desks. Here's what breaks when you try to use them with gloves on, in the sun, between job sites.</p>
+            <span class="blog-card-link">Coming soon &rarr;</span>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img" aria-hidden="true">&#x1F4B5;</div>
+          <div class="blog-card-body">
+            <p class="blog-card-meta">Job Costing</p>
+            <h3 class="blog-card-title">How to figure out which jobs actually make you money</h3>
+            <p class="blog-card-excerpt">You mow 30 lawns a week. Some are profitable. Some aren't. Without tracking hours per property, you're guessing. Here's how to stop guessing.</p>
+            <span class="blog-card-link">Coming soon &rarr;</span>
+          </div>
+        </article>
+
+        <article class="blog-card">
+          <div class="blog-card-img" aria-hidden="true">&#x1F4F1;</div>
+          <div class="blog-card-body">
+            <p class="blog-card-meta">Tech</p>
+            <h3 class="blog-card-title">What is a PWA, and why should you care?</h3>
+            <p class="blog-card-excerpt">Progressive Web Apps install from your browser, work offline, and skip the app store entirely. Why that matters for a one-person crew with an Android phone.</p>
+            <span class="blog-card-link">Coming soon &rarr;</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <p class="footer-brand-name">MowClock</p>
+          <p class="footer-brand-desc">Time tracking for self-employed field workers. Clock in. Get paid. Go home.</p>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#install">Install</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#blog">Blog</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>Sister Brands</h4>
+          <ul>
+            <li><a href="https://turfandtree.us.com" target="_blank" rel="noopener">Turf &amp; Tree</a></li>
+            <li><a href="https://arpent.us.com" target="_blank" rel="noopener">Arpent</a></li>
+            <li><a href="https://aubaine.fyi" target="_blank" rel="noopener">Aubaine</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span class="footer-1656">A <strong>1656</strong> brand</span>
+        <span>&copy; 2026 MowClock. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       FIREBASE + AUTH
+       ============================================ -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script>
+    // ── Firebase init ────────────────────────────
+    firebase.initializeApp({
+      apiKey: "AIzaSyDHI-_3bZANlicN6vWCLv2jCPgNSSjchY4",
+      authDomain: "back-forty-app.firebaseapp.com",
+      projectId: "back-forty-app",
+      storageBucket: "back-forty-app.firebasestorage.app",
+      messagingSenderId: "646932283421",
+      appId: "1:646932283421:web:c1b2606f788adb827206f4"
+    });
+
+    var SITE = "mowclock";
+    var db = firebase.firestore();
+    var sessionDocRef = null;
+    var sessionStart = new Date().toISOString();
+    var pagesVisited = [window.location.pathname];
+
+    // ── Google Sign-In ───────────────────────────
+    function signInWithGoogle() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider).catch(function(err) {
+        console.error("Auth error:", err);
+      });
+    }
+
+    // ── Auth state change ────────────────────────
+    firebase.auth().onAuthStateChanged(function(user) {
+      var signInBtn = document.getElementById("sign-in-btn");
+      var userPill = document.getElementById("user-pill");
+      var userAvatar = document.getElementById("user-avatar");
+      var userName = document.getElementById("user-name");
+
+      if (user) {
+        // Show user pill, hide sign-in
+        signInBtn.style.display = "none";
+        userPill.style.display = "flex";
+        userAvatar.src = user.photoURL || "";
+        userAvatar.alt = (user.displayName || "User") + " avatar";
+        userName.textContent = user.displayName || user.email;
+
+        // Set GA4 user_id
+        if (typeof gtag === "function") {
+          gtag("set", {"user_id": user.uid});
+        }
+
+        // Log session to Firestore
+        sessionDocRef = db.collection("site_sessions").doc();
+        sessionDocRef.set({
+          email: user.email,
+          name: user.displayName,
+          photo: user.photoURL,
+          uid: user.uid,
+          site: SITE,
+          started: sessionStart,
+          lastPing: new Date().toISOString(),
+          duration: 0,
+          pages: pagesVisited
+        });
+
+        // Update site_users doc
+        db.collection("site_users").doc(user.uid).set({
+          email: user.email,
+          name: user.displayName,
+          photo: user.photoURL,
+          lastSite: SITE,
+          lastVisit: new Date().toISOString()
+        }, { merge: true });
+
+      } else {
+        signInBtn.style.display = "inline-flex";
+        userPill.style.display = "none";
+        sessionDocRef = null;
+      }
+    });
+
+    // ── Heartbeat (30s) ──────────────────────────
+    setInterval(function() {
+      if (sessionDocRef) {
+        var now = new Date();
+        var durationSec = Math.round((now - new Date(sessionStart)) / 1000);
+        sessionDocRef.update({
+          lastPing: now.toISOString(),
+          duration: durationSec,
+          pages: pagesVisited
+        }).catch(function(){});
+      }
+    }, 30000);
+
+    // ── Visibility change ────────────────────────
+    document.addEventListener("visibilitychange", function() {
+      if (document.visibilityState === "hidden" && sessionDocRef) {
+        var now = new Date();
+        var durationSec = Math.round((now - new Date(sessionStart)) / 1000);
+        sessionDocRef.update({
+          lastPing: now.toISOString(),
+          duration: durationSec,
+          pages: pagesVisited
+        }).catch(function(){});
+      }
+    });
+
+    // ── Track hash navigation ────────────────────
+    window.addEventListener("hashchange", function() {
+      var page = window.location.pathname + window.location.hash;
+      if (pagesVisited.indexOf(page) === -1) {
+        pagesVisited.push(page);
+      }
+    });
+  </script>
+
+</body>
+</html>
