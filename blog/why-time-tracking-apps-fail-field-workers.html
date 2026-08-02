@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why Most Time-Tracking Apps Fail Field Workers | MowClock</title>
+  <meta name="description" content="Desktop-first time trackers were built for people who sit at desks. Here's what breaks when you use them with gloves on, in the sun, between job sites.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6B44SYS89L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6B44SYS89L');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img, svg { display: block; max-width: 100%; }
+    :root {
+      --paper: #faf6ee; --paper-raised: #fffdf8; --paper-sunk: #f0e9db;
+      --line: #e3d9c6; --line-strong: #d3c6ab;
+      --ink: #2a2118; --ink-2: #5d5241; --ink-3: #8c7f66;
+      --accent: #2d6a4f; --accent-soft: #40916c; --accent-wash: #d8f3dc; --accent-dark: #1b4332;
+      --serif: "Source Serif 4", Georgia, serif;
+      --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --max-w: 1120px; --gutter: 1.25rem; --radius: 0.5rem; --radius-lg: 1rem;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #1c150e; --paper-raised: #251c12; --paper-sunk: #171009;
+        --line: #392c1d; --line-strong: #4a3a26;
+        --ink: #f4eede; --ink-2: #cbbda3; --ink-3: #9c8e74;
+        --accent: #52b788; --accent-soft: #74c69d; --accent-wash: #1a3326; --accent-dark: #95d5b2;
+      }
+    }
+    body { font-family: var(--sans); color: var(--ink); background: var(--paper); line-height: 1.6; }
+    h1, h2, h3 { font-family: var(--serif); line-height: 1.25; color: var(--ink); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-dark); }
+    .container { max-width: 42rem; margin: 0 auto; padding: 0 var(--gutter); }
+    .nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--line); }
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); display: flex; align-items: center; justify-content: space-between; height: 3.75rem; }
+    .nav-brand { display: flex; align-items: center; gap: 0.625rem; color: var(--ink); font-family: var(--serif); font-weight: 700; font-size: 1.25rem; }
+    .nav-logo { width: 2.25rem; height: 2.25rem; background: var(--accent); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: #fff; }
+    .back-link { font-size: 0.9rem; font-weight: 600; }
+    article { padding: 3.5rem 0 5rem; }
+    .meta { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 700; margin-bottom: 1rem; }
+    h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); margin-bottom: 1.5rem; }
+    h2 { font-size: 1.3rem; margin: 2.25rem 0 0.75rem; }
+    p { margin-bottom: 1.1rem; color: var(--ink-2); font-size: 1.05rem; }
+    ul { margin: 0 0 1.25rem 1.25rem; color: var(--ink-2); }
+    li { margin-bottom: 0.5rem; font-size: 1.02rem; }
+    strong { color: var(--ink); }
+    .cta { margin-top: 2.5rem; padding: 1.5rem; background: var(--accent-wash); border-radius: var(--radius-lg); text-align: center; }
+    .cta a { display: inline-block; margin-top: 0.5rem; font-weight: 700; background: var(--accent); color: #fff; padding: 0.7rem 1.5rem; border-radius: var(--radius); }
+    .cta a:hover { color: #fff; background: var(--accent-dark); }
+    .footer { border-top: 1px solid var(--line); padding: 2rem 0; text-align: center; font-size: 0.85rem; color: var(--ink-3); }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="../index.html" class="nav-brand"><span class="nav-logo" aria-hidden="true">&#x1F331;</span> MowClock</a>
+    <a href="../index.html#blog" class="back-link">&larr; Back to blog</a>
+  </div></nav>
+
+  <article class="container">
+    <p class="meta">Productivity</p>
+    <h1>Why Most Time-Tracking Apps Fail Field Workers</h1>
+
+    <p>Most time-tracking software is built by people who sit at a desk, for people they assume also sit at a desk. That assumption breaks the moment you try to use one outside &mdash; and if you run a mowing crew, a landscaping outfit, or any trade that lives in a truck, you've probably felt it.</p>
+
+    <h2>Gloves don't work on a touchscreen built for fingertips</h2>
+    <p>Small tap targets, tiny text fields, dropdown menus that need precision &mdash; all of it assumes bare hands and a stable desk. In the field you're wearing gloves, standing on uneven ground, and you need to clock in with one thumb while carrying a trimmer in the other hand. A tool built for the field has to have big, forgiving buttons and almost nothing to type.</p>
+
+    <h2>Screens weren't designed for direct sun</h2>
+    <p>Dark UI themes, low-contrast gray-on-white text, thin fonts &mdash; they all vanish at noon in July. Field-first design means high contrast by default, because "readable in a conference room" and "readable standing in a driveway at 1pm" are two different problems.</p>
+
+    <h2>No signal doesn't mean no work</h2>
+    <p>Rural properties and job sites in dead zones don't pause because your app needs a connection. If a time tracker can't log an arrival offline and quietly sync later, you lose the entry &mdash; and the trust. Offline-first isn't a nice-to-have for a mobile trade; it's the baseline.</p>
+
+    <h2>Zero desktop bloat, by design</h2>
+    <p>A one-person or small crew doesn't need a login portal, a settings wizard, or a dashboard meant for an office manager. It needs:</p>
+    <ul>
+      <li><strong>One tap to start</strong> &mdash; no menus between arriving and clocking in</li>
+      <li><strong>GPS that confirms, not interrogates</strong> &mdash; you shouldn't have to prove where you are</li>
+      <li><strong>Reports that export cleanly</strong> &mdash; without a spreadsheet cleanup pass afterward</li>
+    </ul>
+
+    <p>That's the whole design brief behind MowClock: built outside, for people who work outside.</p>
+
+    <div class="cta">
+      <p>See how it works in the field.</p>
+      <a href="../index.html#install">Install MowClock</a>
+    </div>
+  </article>
+
+  <div class="footer">&copy; 2026 MowClock. A <strong>1656</strong> brand.</div>
+</body>
+</html>
