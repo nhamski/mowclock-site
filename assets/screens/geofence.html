@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#eef1ed" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1512" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MowClock">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="https://lawncare-k7xg.onrender.com/static/icons/icon-192.png">
+  <link rel="stylesheet" href="https://lawncare-k7xg.onrender.com/static/css/style.css">
+  <link rel="stylesheet" href="https://lawncare-k7xg.onrender.com/static/vendor/leaflet/leaflet.css">
+<style>
+  .switchrow { display:flex; align-items:center; justify-content:space-between;
+    gap:12px; margin-top:var(--s3); }
+  .switchrow .lbl { font-weight:600; }
+  .switchrow .sub { display:block; font-weight:400; font-size:.8rem; color:var(--muted,#6b756c); }
+  .switch { position:relative; display:inline-block; width:52px; height:30px; flex:0 0 auto; }
+  .switch input { opacity:0; width:0; height:0; }
+  .switch .slider { position:absolute; inset:0; cursor:pointer; background:#c8ccc6;
+    border-radius:999px; transition:.2s; }
+  .switch .slider:before { content:""; position:absolute; height:24px; width:24px;
+    left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s;
+    box-shadow:0 1px 2px rgba(0,0,0,.3); }
+  .switch input:checked + .slider { background:#2f7d52; }        /* on = will text */
+  .switch input:checked + .slider:before { transform:translateX(22px); }
+  .switch input:focus-visible + .slider { outline:2px solid var(--accent,#2f7d52); outline-offset:2px; }
+</style>
+  <title>MowClock</title>
+<meta name="viewport" content="width=390">
+</head>
+<body>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21c0-7 3-12 8-15-1 8-4 12-8 15Z"/><path d="M12 21c0-6-2-10-7-12 1 7 3 10 7 12Z"/>
+    </symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 2h6"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+    </symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 3v18l2.5-1.5L10 21l2-1.5L14 21l2.5-1.5L19 21V3z"/><path d="M9 8h6M9 12h6"/>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 2 4-6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol>
+  </svg>
+
+  
+  <div class="topbar">
+    <h1><svg><use href="#i-leaf"/></svg> MowClock</h1>
+    <span class="who">you@example.com<br><a href="/logout">sign out</a></span>
+  </div>
+  
+
+  
+    
+  
+
+  
+<div class="wrap">
+  <a href="/properties" class="mini">← back</a>
+  <h2 class="sectionhead" style="margin-top:var(--s2)">Eva Dougherty</h2>
+
+  
+  <div class="card">
+    <div class="field">
+      <label for="fName">Customer / yard name</label>
+      <input id="fName" type="text" value="Eva Dougherty" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="fAddress">Address</label>
+      <input id="fAddress" type="text" value="" placeholder="412 Oak St, Logan KS">
+    </div>
+    <div class="fieldrow">
+      <div class="field">
+        <label for="fPhone">Phone</label>
+        <input id="fPhone" type="tel" value="785-543-8137" placeholder="785-555-0142">
+      </div>
+      <div class="field">
+        <label for="fPrice">Price per mow ($)</label>
+        <input id="fPrice" type="number" inputmode="decimal" step="1" min="0"
+               value="50">
+      </div>
+    </div>
+    <div class="switchrow">
+      <span class="lbl">Text this customer
+        <span class="sub">Off = never send invoice texts</span>
+      </span>
+      <label class="switch">
+        <input id="fText" type="checkbox" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="fieldrow">
+      <div class="field">
+        <label for="fFreq">How often</label>
+        <input id="fFreq" type="text" value="Weekly" placeholder="Weekly, Biweekly">
+      </div>
+      <div class="field">
+        <label for="fRadius">Geofence radius (m)</label>
+        <input id="fRadius" type="number" inputmode="numeric" step="5" min="10"
+               value="40">
+      </div>
+    </div>
+    <div class="fieldrow">
+      <div class="field">
+        <label for="fCadence">Schedule</label>
+        <select id="fCadence">
+          <option value="none" >As needed</option>
+          <option value="weekly" selected>Weekly</option>
+          <option value="biweekly" >Every other week</option>
+          <option value="monthly" >Monthly</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="fDay">Mow day</label>
+        <select id="fDay">
+          <option value="" selected>Any day</option>
+          
+          <option value="0" >Monday</option>
+          
+          <option value="1" >Tuesday</option>
+          
+          <option value="2" >Wednesday</option>
+          
+          <option value="3" >Thursday</option>
+          
+          <option value="4" >Friday</option>
+          
+          <option value="5" >Saturday</option>
+          
+          <option value="6" >Sunday</option>
+          
+        </select>
+      </div>
+    </div>
+    <div class="checkrow">
+      <label><input id="fBag" type="checkbox" checked> Bag</label>
+      <label><input id="fTrim" type="checkbox" checked> Trim</label>
+      <label><input id="fActive" type="checkbox" checked> Active</label>
+    </div>
+    <div class="field">
+      <label for="fNotes">Notes</label>
+      <textarea id="fNotes" placeholder="Gate code, dog, where to park…"></textarea>
+    </div>
+    <button id="btnSaveDetails" class="btn btn-green btn-block">Save customer</button>
+    <div id="detailMsg" class="mini" style="text-align:center;margin-top:var(--s2)"></div>
+    <button id="btnDelete" class="btn btn-red btn-block" style="margin-top:var(--s4)">Delete customer</button>
+  </div>
+
+  <h3 class="sectionhead" style="margin-top:var(--s5)">Boundary</h3>
+
+  <div class="findrow">
+    <input id="findBox" type="search" enterkeyhint="search" autocomplete="off"
+           placeholder="Address, place, or lat,lng">
+    <button id="btnFind" class="btn btn-ghost">Go</button>
+  </div>
+
+  <div id="map"></div>
+
+  <p class="hint" style="margin-top:var(--s3)">
+    Drag the green corner dots to trace the mowable area. Tap a hollow dot on an edge to
+    add a corner; tap a green corner to remove it. This boundary is the geofence that
+    starts your timer. Satellite imagery © Esri.</p>
+
+  <div class="btnrow">
+    <button id="btnLocate" class="btn btn-ghost">Use my location</button>
+    <button id="btnBox" class="btn btn-ghost">Drop a box here</button>
+  </div>
+  <div class="btnrow">
+    <button id="btnGeocode" class="btn btn-ghost">Suggest from address</button>
+    <button id="btnSave" class="btn btn-green">Save boundary</button>
+  </div>
+  <div id="saveMsg" class="mini" style="text-align:center;margin-top:var(--s3)"></div>
+</div>
+
+
+  
+  <div class="nav">
+    <a href="/" class=""><svg><use href="#i-timer"/></svg>Timer</a>
+    <a href="/properties" class="active"><svg><use href="#i-pin"/></svg>Yards</a>
+    <a href="/rates" class=""><svg><use href="#i-chart"/></svg>Rates</a>
+    <a href="/approvals" class=""><svg><use href="#i-receipt"/></svg>Invoices</a>
+  </div>
+  
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function(){});
+    }
+  </script>
+  
+<script>window.PROP = {"active": true, "address": null, "bag": true, "cadence": null, "center_lat": 39.6612, "center_lng": -99.5679, "frequency": "Weekly", "geofence_radius": 40.0, "has_fence": true, "id": 1, "mow_day": null, "name": "Eva Dougherty", "no_text": false, "notes": "", "phone": "785-543-8137", "polygon": [[39.6613976284585, -99.56815671636511], [39.6613976284585, -99.56764328363488], [39.6610023715415, -99.56764328363488], [39.6610023715415, -99.56815671636511]], "price_per_mow": 50.0, "trim": true};</script>
+<script>
+  // Customer details — independent of the map, so it works even offline.
+  (function () {
+    var val = function (id) { return document.getElementById(id).value.trim(); };
+    var chk = function (id) { return document.getElementById(id).checked; };
+    var msg = document.getElementById("detailMsg");
+    var btn = document.getElementById("btnSaveDetails");
+    btn.onclick = function () {
+      if (!val("fName")) { msg.textContent = "Name can't be empty."; return; }
+      btn.setAttribute("aria-busy", "true");
+      msg.textContent = "Saving…";
+      fetch("/api/properties/" + PROP.id, {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: val("fName"), address: val("fAddress"), phone: val("fPhone"),
+          price_per_mow: val("fPrice") || 0, frequency: val("fFreq"),
+          geofence_radius: val("fRadius") || 40,
+          cadence: document.getElementById("fCadence").value,
+          mow_day: document.getElementById("fDay").value,
+          notes: val("fNotes"), bag: chk("fBag"), trim: chk("fTrim"), active: chk("fActive"),
+          no_text: !chk("fText"),
+        }),
+      }).then(function (r) { return r.json(); })
+        .then(function (p) {
+          msg.textContent = p && p.id
+            ? "Saved ✓ — $" + (p.price_per_mow || 0) + " per mow"
+            : "Couldn't save: " + ((p && p.error) || "unknown error");
+        })
+        .catch(function () { msg.textContent = "Save failed — check your signal."; })
+        .then(function () { btn.removeAttribute("aria-busy"); });
+    };
+
+    // Delete customer — two confirmations for a permanent action.
+    document.getElementById("btnDelete").onclick = function () {
+      if (!confirm("Delete " + PROP.name + "?")) return;
+      if (!confirm("This permanently removes the customer. Delete for good?")) return;
+      msg.textContent = "Deleting…";
+      fetch("/api/properties/" + PROP.id + "/delete", {
+        method: "POST", headers: { "Content-Type": "application/json" }, body: "{}",
+      }).then(function (r) { return r.json(); })
+        .then(function () { window.location = "/properties"; })
+        .catch(function () { msg.textContent = "Delete failed."; });
+    };
+  })();
+</script>
+<script src="https://lawncare-k7xg.onrender.com/static/vendor/leaflet/leaflet.js"></script>
+<script>
+  // Leaflet + free Esri satellite imagery — no API key, no billing.
+  var HOME = { lat: 39.6620, lng: -99.5687 };   // Logan, KS fallback
+  var map, polygon, handles;
+
+  function say(t) { document.getElementById("saveMsg").textContent = t; }
+
+  function points() {
+    return polygon.getLatLngs()[0].map(function (ll) { return [ll.lat, ll.lng]; });
+  }
+
+  function icon(mid) {
+    return L.divIcon({
+      className: mid ? "vtx-mid" : "vtx",
+      iconSize: mid ? [14, 14] : [18, 18],
+    });
+  }
+
+  function redrawHandles() {
+    handles.clearLayers();
+    var lls = polygon.getLatLngs()[0];
+    lls.forEach(function (ll, i) {
+      var v = L.marker(ll, { icon: icon(false), draggable: true, keyboard: false });
+      v.on("drag", function (e) { lls[i] = e.latlng; polygon.setLatLngs([lls]); });
+      v.on("dragend", redrawHandles);
+      v.on("click", function () {
+        if (lls.length > 3) { lls.splice(i, 1); polygon.setLatLngs([lls]); redrawHandles(); }
+      });
+      handles.addLayer(v);
+      var next = lls[(i + 1) % lls.length];
+      var mid = L.latLng((ll.lat + next.lat) / 2, (ll.lng + next.lng) / 2);
+      var m = L.marker(mid, { icon: icon(true), keyboard: false });
+      m.on("click", function () {
+        lls.splice(i + 1, 0, mid); polygon.setLatLngs([lls]); redrawHandles();
+      });
+      handles.addLayer(m);
+    });
+  }
+
+  function setPolygon(pts) {
+    if (polygon) map.removeLayer(polygon);
+    polygon = L.polygon(pts, {
+      color: "#14663a", weight: 2, fillColor: "#14663a", fillOpacity: 0.15,
+    }).addTo(map);
+    redrawHandles();
+    map.fitBounds(polygon.getBounds(), { padding: [30, 30], maxZoom: 20 });
+  }
+
+  function squareAround(lat, lng) {
+    var d = 22 / 111320, e = 22 / (111320 * Math.cos(lat * Math.PI / 180));
+    return [[lat + d, lng - e], [lat + d, lng + e], [lat - d, lng + e], [lat - d, lng - e]];
+  }
+
+  // Free geocoding via OpenStreetMap Nominatim (low-volume single-user use).
+  function geocode(q, cb) {
+    fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&q="
+          + encodeURIComponent(q))
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res && res[0]) cb({ lat: parseFloat(res[0].lat), lng: parseFloat(res[0].lon) });
+        else cb(null);
+      }).catch(function () { cb(null); });
+  }
+
+  function initMap() {
+    var hasCenter = PROP.center_lat != null;
+    map = L.map("map").setView(
+      hasCenter ? [PROP.center_lat, PROP.center_lng] : [HOME.lat, HOME.lng],
+      hasCenter ? 19 : 14
+    );
+    L.tileLayer(
+      "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      { maxZoom: 21, maxNativeZoom: 19, attribution: "Imagery © Esri, Maxar, Earthstar Geographics" }
+    ).addTo(map);
+    handles = L.layerGroup().addTo(map);
+    setTimeout(function () { map.invalidateSize(); }, 200);
+
+    if (PROP.polygon && PROP.polygon.length >= 3) {
+      setPolygon(PROP.polygon);
+    } else if (hasCenter) {
+      setPolygon(squareAround(PROP.center_lat, PROP.center_lng));
+    } else if (PROP.address) {
+      say("Locating address…");
+      geocode(PROP.address, function (loc) {
+        if (loc) { map.setView([loc.lat, loc.lng], 19); setPolygon(squareAround(loc.lat, loc.lng)); say(""); }
+        else say('Couldn’t locate address — find the yard, then tap "Drop a box here".');
+      });
+    } else {
+      say('No address on file — find the yard, then tap "Drop a box here".');
+    }
+    if (!PROP.address) document.getElementById("btnGeocode").disabled = true;
+  }
+
+  function findPlace() {
+    var q = document.getElementById("findBox").value.trim();
+    if (!q) return;
+    var ll = q.match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);
+    if (ll) { map.setView([parseFloat(ll[1]), parseFloat(ll[2])], 20); say(""); return; }
+    say("Searching…");
+    geocode(q, function (loc) {
+      if (loc) { map.setView([loc.lat, loc.lng], 19); say(""); }
+      else say("No match. Pan the map to the yard yourself.");
+    });
+  }
+
+  document.getElementById("btnFind").onclick = findPlace;
+  document.getElementById("findBox").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); findPlace(); }
+  });
+  document.getElementById("btnLocate").onclick = function () {
+    if (!navigator.geolocation) { say("This browser can't share your location."); return; }
+    say("Locating…");
+    navigator.geolocation.getCurrentPosition(
+      function (p) { map.setView([p.coords.latitude, p.coords.longitude], 20); say(""); },
+      function () { say("Couldn't get your location — check the permission."); },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  };
+  document.getElementById("btnBox").onclick = function () {
+    var c = map.getCenter();
+    setPolygon(squareAround(c.lat, c.lng));
+    say("Drag the corners to fit the yard, then Save.");
+  };
+  document.getElementById("btnGeocode").onclick = function () {
+    if (!PROP.address) return;
+    say("Locating…");
+    geocode(PROP.address, function (loc) {
+      if (loc) { map.setView([loc.lat, loc.lng], 19); setPolygon(squareAround(loc.lat, loc.lng)); say("Suggested a box — drag to fit."); }
+      else say("Couldn't locate that address.");
+    });
+  };
+  document.getElementById("btnSave").onclick = function () {
+    if (!polygon) { say('Nothing to save yet — tap "Drop a box here" first.'); return; }
+    say("Saving…");
+    fetch("/api/properties/" + PROP.id + "/fence", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ polygon: points() }),
+    }).then(function (r) { return r.json(); })
+      .then(function (p) { say(p.has_fence ? "Boundary saved ✓ — timer will trigger here" : "Saved."); })
+      .catch(function () { say("Save failed."); });
+  };
+
+  initMap();
+</script>
+
+</body>
+</html>

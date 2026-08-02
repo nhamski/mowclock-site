@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+  <meta name="theme-color" content="#eef1ed" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1512" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="MowClock">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="apple-touch-icon" href="https://lawncare-k7xg.onrender.com/static/icons/icon-192.png">
+  <link rel="stylesheet" href="https://lawncare-k7xg.onrender.com/static/css/style.css">
+  
+  <title>MowClock</title>
+<meta name="viewport" content="width=390">
+</head>
+<body>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 21c0-7 3-12 8-15-1 8-4 12-8 15Z"/><path d="M12 21c0-6-2-10-7-12 1 7 3 10 7 12Z"/>
+    </symbol>
+    <symbol id="i-timer" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M9 2h6"/>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+    </symbol>
+    <symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M5 3v18l2.5-1.5L10 21l2-1.5L14 21l2.5-1.5L19 21V3z"/><path d="M9 8h6M9 12h6"/>
+    </symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 2 4-6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol>
+  </svg>
+
+  
+  <div class="topbar">
+    <h1><svg><use href="#i-leaf"/></svg> MowClock</h1>
+    <span class="who">you@example.com<br><a href="/logout">sign out</a></span>
+  </div>
+  
+
+  
+    
+  
+
+  
+<div class="wrap">
+
+  
+  <div class="card status-card" id="statusCard">
+    <span id="badge" class="status-badge b-idle">Idle</span>
+    <div id="timer" class="timer">00:00</div>
+    <div id="propName" class="prop-name">No active job</div>
+    <div id="propSub" class="prop-sub">Start a yard below, or drive to a property</div>
+
+    <div class="btnrow" style="margin-top:var(--s4)">
+      <button id="btnPause" class="btn btn-amber" disabled>Pause</button>
+      <button id="btnEnd" class="btn btn-red" disabled>End</button>
+    </div>
+  </div>
+
+  <a class="btn btn-ghost btn-block" href="/schedule" style="margin-bottom:var(--s3)">
+    <svg><use href="#i-pin"/></svg>Today's route &amp; what's due
+  </a>
+
+  
+  <div class="card" id="startCard">
+    <div class="label">Start a yard</div>
+    
+    <div class="startrow">
+      <select id="startProp" aria-label="Choose a yard">
+        <option value="2">Assisted Living</option><option value="1">Eva Dougherty</option><option value="3">Jeremy Dougherty</option>
+      </select>
+      <button id="btnStart" class="btn btn-green"><svg><use href="#i-play"/></svg>Start</button>
+    </div>
+    <div class="hint" style="margin-top:var(--s2)">Works even if GPS is slow — the clock starts now.</div>
+    
+  </div>
+
+  
+  <div id="pendingWrap"></div>
+
+  
+  <div class="card earn-card">
+    <div class="label">Today</div>
+    <div class="stats">
+      <div class="stat"><div class="v" id="sEarn">$0</div><div class="l">Earned</div></div>
+      <div class="stat"><div class="v" id="sHour">$0</div><div class="l">Per hour</div></div>
+      <div class="stat"><div class="v" id="sMow">$0</div><div class="l">Per mow</div></div>
+    </div>
+    <div class="mini" style="text-align:center;margin-top:var(--s2)">
+      <span id="sJobs">0</span> mows · <span id="sMin">0</span> min ·
+      <a href="/approvals"><span id="sPend">0</span> to approve →</a>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="label">This week</div>
+    <div class="stats">
+      <div class="stat"><div class="v" id="wHours">0</div><div class="l">Hours</div></div>
+      <div class="stat"><div class="v" id="wEarn">$0</div><div class="l">Earned</div></div>
+      <div class="stat"><div class="v" id="wHour">$0</div><div class="l">Avg $/hr</div></div>
+    </div>
+  </div>
+
+  
+  <div class="tools">
+    <button id="btnAddYard" class="btn btn-ghost btn-block">
+      <svg><use href="#i-plus"/></svg>Add this yard (GPS)
+    </button>
+    <div id="addMsg" class="mini" style="text-align:center;margin-top:var(--s2)"></div>
+
+    <div class="gps">
+      <span id="gpsDot" class="dot"></span><span id="gpsText">Requesting location…</span>
+    </div>
+
+    <label class="wakerow">
+      <input type="checkbox" id="wakeToggle" checked>
+      <span id="wakeLabel">Keep screen awake while working</span>
+    </label>
+
+    <details class="helpbox">
+      <summary>How the timer works</summary>
+      <p>Starts about 45 seconds after you're inside a yard, marks the job logged after
+      15 minutes, pauses when you leave, and stops 10 minutes later.
+      Phone GPS is unreliable in the background — if the clock doesn't pick you up, hit
+      <strong>Start</strong>. <a href="/history">Fix a past visit →</a> ·
+      <a href="/ping-log">GPS diagnostics →</a></p>
+    </details>
+  </div>
+</div>
+
+
+  
+  <div class="nav">
+    <a href="/" class="active"><svg><use href="#i-timer"/></svg>Timer</a>
+    <a href="/properties" class=""><svg><use href="#i-pin"/></svg>Yards</a>
+    <a href="/rates" class=""><svg><use href="#i-chart"/></svg>Rates</a>
+    <a href="/approvals" class=""><svg><use href="#i-receipt"/></svg>Invoices</a>
+  </div>
+  
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(function(){});
+    }
+  </script>
+  
+<script>window.CFG = { autoLog: 15, leaveStop: 10 };</script>
+<script src="https://lawncare-k7xg.onrender.com/static/js/app.js"></script>
+
+</body>
+</html>
