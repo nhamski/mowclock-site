@@ -3,35 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Figure Out Which Jobs Actually Make You Money | MowClock</title>
-  <meta name="description" content="You mow 30 lawns a week. Some are profitable. Some aren't. Without tracking hours per property, you're guessing. Here's how to stop guessing.">
-  <link rel="canonical" href="https://mowclock.app/blog/which-jobs-actually-make-you-money.html">
+  <title>How to Track Lawn Mowing Time Automatically | MowClock</title>
+  <meta name="description" content="Manual timers get forgotten in the field. Here's how geofenced GPS tracking starts and stops the clock on its own, and what makes it reliable in the real world.">
+  <link rel="canonical" href="https://mowclock.app/blog/track-lawn-mowing-time-automatically.html">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
 
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="MowClock">
-  <meta property="og:url" content="https://mowclock.app/blog/which-jobs-actually-make-you-money.html">
-  <meta property="og:title" content="How to Figure Out Which Jobs Actually Make You Money">
-  <meta property="og:description" content="You mow 30 lawns a week. Some are profitable. Some aren't. Without tracking hours per property, you're guessing. Here's how to stop guessing.">
+  <meta property="og:url" content="https://mowclock.app/blog/track-lawn-mowing-time-automatically.html">
+  <meta property="og:title" content="How to Track Lawn Mowing Time Automatically">
+  <meta property="og:description" content="How geofenced GPS tracking starts and stops the clock on its own, and what makes it reliable in the field.">
   <meta property="og:image" content="https://mowclock.app/assets/og-image.png">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="How to Figure Out Which Jobs Actually Make You Money">
-  <meta name="twitter:description" content="Without tracking hours per property, you're guessing. Here's how to stop guessing.">
+  <meta name="twitter:title" content="How to Track Lawn Mowing Time Automatically">
   <meta name="twitter:image" content="https://mowclock.app/assets/og-image.png">
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "How to Figure Out Which Jobs Actually Make You Money",
-    "description": "You mow 30 lawns a week. Some are profitable. Some aren't. Without tracking hours per property, you're guessing. Here's how to stop guessing.",
-    "datePublished": "2026-08-01",
+    "headline": "How to Track Lawn Mowing Time Automatically",
+    "description": "Manual timers get forgotten in the field. Here's how geofenced GPS tracking starts and stops the clock on its own, and what makes it reliable in the real world.",
+    "datePublished": "2026-08-07",
     "dateModified": "2026-08-07",
     "author": { "@type": "Organization", "name": "MowClock" },
     "publisher": { "@type": "Organization", "name": "MowClock", "logo": { "@type": "ImageObject", "url": "https://mowclock.app/assets/og-image.png" } },
-    "mainEntityOfPage": "https://mowclock.app/blog/which-jobs-actually-make-you-money.html"
+    "mainEntityOfPage": "https://mowclock.app/blog/track-lawn-mowing-time-automatically.html"
   }
   </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&display=swap" rel="stylesheet">
@@ -80,7 +80,7 @@
     ul { margin: 0 0 1.25rem 1.25rem; color: var(--ink-2); }
     li { margin-bottom: 0.5rem; font-size: 1.02rem; }
     strong { color: var(--ink); }
-    .cta { margin-top: 2.5rem; padding: 1.5rem; background: var(--accent-wash); border-radius: var(--radius-lg); text-align: center; }
+    .cta { margin: 2rem 0; padding: 1.5rem; background: var(--accent-wash); border-radius: var(--radius-lg); text-align: center; }
     .cta a { display: inline-block; margin-top: 0.5rem; font-weight: 700; background: var(--accent); color: #fff; padding: 0.7rem 1.5rem; border-radius: var(--radius); }
     .cta a:hover { color: #fff; background: var(--accent-dark); }
     .footer { border-top: 1px solid var(--line); padding: 2rem 0; text-align: center; font-size: 0.85rem; color: var(--ink-3); }
@@ -93,34 +93,35 @@
   </div></nav>
 
   <article class="container">
-    <p class="meta">Job Costing</p>
-    <h1>How to Figure Out Which Jobs Actually Make You Money</h1>
+    <p class="meta">Time Tracking</p>
+    <h1>How to Track Lawn Mowing Time Automatically</h1>
 
-    <p>You mow 30 lawns a week. You feel busy every day. But "busy" and "profitable" aren't the same thing &mdash; and without hours tracked per property, you genuinely can't tell them apart. Here's how to find out.</p>
+    <p>A manual timer works exactly as well as your memory does, and memory has a bad habit of failing on the busiest days &mdash; the ones where the time data matters most. Automatic tracking removes the step that requires you to remember anything at all.</p>
 
-    <h2>Job costing is just price divided by time</h2>
-    <p>Job costing sounds like accountant-speak, but it's one number: what you actually earned per hour on that specific property. A $50 mow that takes 25 minutes is $120/hour. A $50 mow that takes 90 minutes &mdash; because of a steep slope, tight gates, or a yard that's grown out of control &mdash; is $33/hour. Same price, wildly different job.</p>
+    <h2>The core idea: a geofence, not a button</h2>
+    <p>Draw a boundary once around a property &mdash; a circle or a custom shape traced on a map, takes about ten seconds per job site. From then on, your phone's GPS does the watching. Cross into the boundary, and the clock starts. Cross back out, and it stops. There's no app to open mid-mow, no button to remember with gloves on.</p>
 
-    <h2>Separate travel time from site time</h2>
-    <p>The two most common blind spots are the same for every route-based business:</p>
+    <h2>Why it has to be more than "GPS says I'm here"</h2>
+    <p>Raw GPS is noisy &mdash; a signal can jump 30 feet for no reason, especially near trees or buildings. A tracker that reacts to every wobble will fracture one visit into three fake ones, or clock you in while you're just driving past. The fix is a few layers of common sense stacked on top of the raw signal:</p>
     <ul>
-      <li><strong>Drive time between stops</strong> &mdash; a client 20 minutes out of the way costs you real money before you've touched a blade of grass</li>
-      <li><strong>Time on-site vs. time billed</strong> &mdash; if a job is quoted at 30 minutes but consistently runs 50, your price hasn't caught up to reality</li>
+      <li><strong>An accuracy gate</strong> &mdash; ignore GPS fixes that are too imprecise to trust</li>
+      <li><strong>A confirm delay</strong> &mdash; wait a short window after arrival before starting the clock, so a drive-by doesn't trigger a false start</li>
+      <li><strong>Exit hysteresis</strong> &mdash; require you to be clearly outside the fence, not just near the edge, before it stops</li>
     </ul>
-    <p>Tracked separately, these two numbers tell you whether a client is unprofitable because of the drive, the yard, or the price &mdash; three completely different fixes.</p>
+    <p>None of this needs to be visible to you day-to-day. It just needs to work quietly in the background so the number on your report is one you can actually trust.</p>
 
-    <h2>Find your bottom 10%</h2>
-    <p>Every route has a handful of properties quietly dragging the average down. Once you have real per-job hours, sort by dollars-per-hour and look at the worst five. For each one, you've got three options: raise the price, drop the client, or figure out why it's taking so long (steep grade, blocked access, overgrown beds) and fix the root cause instead of eating the cost every single week.</p>
-
-    <h2>The habit that makes this possible</h2>
-    <p>None of this works from memory or a paper log at the end of the day &mdash; the numbers get rounded, guessed, or skipped. It only works if the timer starts and stops automatically at each property, every time, without you having to remember to hit a button.</p>
+    <h2>What "good" looks like</h2>
+    <p>At the end of a route, you should have a clean list: property name, arrival, departure, total minutes &mdash; with nothing to review, correct, or fill in from memory. If a job runs long because the mower jammed or a gate was locked, an editable minutes field at confirm time handles the exception without breaking the automatic system for every normal visit.</p>
 
     <div class="cta">
-      <p>See your $/hour by property, automatically.</p>
+      <p>Geofenced, automatic, works on the phone already in your pocket.</p>
       <a href="../index.html#install">Install MowClock</a>
     </div>
 
-    <p style="margin-top:2.5rem;font-size:0.95rem;color:var(--ink-3);">Read next: <a href="best-way-to-track-lawn-care-business.html">The best way to track your lawn care business (full guide)</a> &middot; <a href="lawn-care-pricing-by-time-not-guesswork.html">Lawn care pricing: price by time, not guesswork</a> &middot; <a href="mileage-tax-deduction-lawn-care-business.html">Tracking mileage and drive time for tax deductions</a></p>
+    <h2>Where this data goes next</h2>
+    <p>Time tracked per property is the raw input for everything downstream &mdash; what a job is really worth per hour, whether a price needs to move, and what goes on the invoice. Tracking it accurately is step one; the rest of the guide covers what to do with it.</p>
+
+    <p style="margin-top:2.5rem;font-size:0.95rem;color:var(--ink-3);">Read next: <a href="best-way-to-track-lawn-care-business.html">The best way to track your lawn care business (full guide)</a> &middot; <a href="lawn-care-pricing-by-time-not-guesswork.html">Lawn care pricing: price by time, not guesswork</a></p>
   </article>
 
   <div class="footer">&copy; 2026 MowClock. A <strong>1656</strong> brand.</div>

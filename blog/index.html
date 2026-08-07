@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | MowClock — Notes for Solo Lawn Care &amp; Landscaping Operators</title>
+  <meta name="description" content="Pricing, job costing, and productivity notes for solo lawn care, landscaping, and trades operators — from the team building MowClock.">
+  <link rel="canonical" href="https://mowclock.app/blog/">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌱</text></svg>">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MowClock">
+  <meta property="og:url" content="https://mowclock.app/blog/">
+  <meta property="og:title" content="Blog | MowClock">
+  <meta property="og:description" content="Pricing, job costing, and productivity notes for solo lawn care, landscaping, and trades operators.">
+  <meta property="og:image" content="https://mowclock.app/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog | MowClock">
+  <meta name="twitter:image" content="https://mowclock.app/assets/og-image.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "MowClock Blog",
+    "url": "https://mowclock.app/blog/",
+    "publisher": { "@type": "Organization", "name": "MowClock" }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;0,8..60,800;1,8..60,400&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6B44SYS89L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-6B44SYS89L');
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img, svg { display: block; max-width: 100%; }
+    :root {
+      --paper: #faf6ee; --paper-raised: #fffdf8; --paper-sunk: #f0e9db;
+      --line: #e3d9c6; --line-strong: #d3c6ab;
+      --ink: #2a2118; --ink-2: #5d5241; --ink-3: #8c7f66;
+      --accent: #2d6a4f; --accent-soft: #40916c; --accent-wash: #d8f3dc; --accent-dark: #1b4332;
+      --serif: "Source Serif 4", Georgia, serif;
+      --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --max-w: 1120px; --gutter: 1.25rem; --radius: 0.5rem; --radius-lg: 1rem;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --paper: #1c150e; --paper-raised: #251c12; --paper-sunk: #171009;
+        --line: #392c1d; --line-strong: #4a3a26;
+        --ink: #f4eede; --ink-2: #cbbda3; --ink-3: #9c8e74;
+        --accent: #52b788; --accent-soft: #74c69d; --accent-wash: #1a3326; --accent-dark: #95d5b2;
+      }
+    }
+    body { font-family: var(--sans); color: var(--ink); background: var(--paper); line-height: 1.6; }
+    h1, h2, h3 { font-family: var(--serif); line-height: 1.25; color: var(--ink); }
+    a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--accent-dark); }
+    .container { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); }
+    .nav { position: sticky; top: 0; z-index: 100; background: var(--paper); border-bottom: 1px solid var(--line); }
+    .nav-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 var(--gutter); display: flex; align-items: center; justify-content: space-between; height: 3.75rem; }
+    .nav-brand { display: flex; align-items: center; gap: 0.625rem; color: var(--ink); font-family: var(--serif); font-weight: 700; font-size: 1.25rem; }
+    .nav-logo { width: 2.25rem; height: 2.25rem; background: var(--accent); border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: #fff; }
+    .back-link { font-size: 0.9rem; font-weight: 600; }
+    .hero { padding: 3.5rem 0 1rem; text-align: center; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 2.75rem); margin-bottom: 0.75rem; }
+    .hero p { color: var(--ink-2); font-size: 1.1rem; max-width: 34rem; margin: 0 auto; }
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      padding: 3rem 0 5rem;
+    }
+    @media (max-width: 800px) { .blog-grid { grid-template-columns: 1fr; } }
+    .blog-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.5rem; transition: box-shadow 0.2s, transform 0.2s; }
+    .blog-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.06); transform: translateY(-2px); }
+    .blog-card-meta { font-size: 0.8rem; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 0.5rem; }
+    .blog-card-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; font-family: var(--serif); }
+    .blog-card-excerpt { font-size: 0.9rem; color: var(--ink-2); line-height: 1.55; margin-bottom: 0.75rem; }
+    .blog-card-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); }
+    .featured-card {
+      display: block; background: var(--accent-dark); color: #fff; border-radius: var(--radius-lg);
+      padding: 2.25rem 2.5rem; margin: 0 0 2.5rem;
+    }
+    .featured-card .blog-card-meta { color: var(--accent-wash); }
+    .featured-card h2 { color: #fff; font-size: 1.6rem; margin-bottom: 0.6rem; }
+    .featured-card p.excerpt { color: var(--accent-wash); font-size: 1.02rem; max-width: 38rem; margin-bottom: 0.9rem; }
+    .featured-card .blog-card-link { color: #fff; font-weight: 700; }
+    .section-heading { font-family: var(--serif); font-size: 1.15rem; color: var(--ink-3); margin: 0 0 1.25rem; }
+    .footer { border-top: 1px solid var(--line); padding: 2rem 0; text-align: center; font-size: 0.85rem; color: var(--ink-3); }
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="nav-inner">
+    <a href="../index.html" class="nav-brand"><span class="nav-logo" aria-hidden="true">&#x1F331;</span> MowClock</a>
+    <a href="../index.html" class="back-link">&larr; Back to home</a>
+  </div></nav>
+
+  <div class="hero container">
+    <h1>From the field</h1>
+    <p>Pricing, job costing, and productivity notes for solo lawn care, landscaping, and trades operators.</p>
+  </div>
+
+  <div class="container">
+    <a href="best-way-to-track-lawn-care-business.html" class="featured-card">
+      <p class="blog-card-meta">Start Here &middot; The Complete Guide</p>
+      <h2>The Best Way to Track Your Lawn Care Business (2026 Guide)</h2>
+      <p class="excerpt">Automatic GPS time tracking, real pricing, invoicing, scheduling, and mileage &mdash; the whole system in one guide, with a deep dive on every piece.</p>
+      <span class="blog-card-link">Read the full guide &rarr;</span>
+    </a>
+
+    <p class="section-heading">Time &amp; Pricing</p>
+    <div class="blog-grid">
+      <article class="blog-card">
+        <p class="blog-card-meta">Time Tracking</p>
+        <h2 class="blog-card-title">How to Track Lawn Mowing Time Automatically</h2>
+        <p class="blog-card-excerpt">Manual timers get forgotten in the field. Here's how geofenced GPS tracking starts and stops the clock on its own.</p>
+        <a href="track-lawn-mowing-time-automatically.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Pricing</p>
+        <h2 class="blog-card-title">Lawn Care Pricing: Price by Time, Not Guesswork</h2>
+        <p class="blog-card-excerpt">Most solo operators price a yard once and never revisit it. Here's why pricing by tracked time protects your margin.</p>
+        <a href="lawn-care-pricing-by-time-not-guesswork.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Pricing</p>
+        <h2 class="blog-card-title">Pricing Lawn Care by Square Footage vs. by Time</h2>
+        <p class="blog-card-excerpt">What square-footage pricing gets right, what it misses, and why tracked time is the tiebreaker.</p>
+        <a href="price-lawn-care-jobs-square-footage-vs-time.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Job Costing</p>
+        <h2 class="blog-card-title">How to Figure Out Which Jobs Actually Make You Money</h2>
+        <p class="blog-card-excerpt">You mow 30 lawns a week. Some are profitable. Some aren't. Without tracking hours per property, you're guessing.</p>
+        <a href="which-jobs-actually-make-you-money.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Money</p>
+        <h2 class="blog-card-title">Tracking Mileage and Drive Time for Tax Deductions</h2>
+        <p class="blog-card-excerpt">Drive time is invisible in your head and expensive on paper &mdash; as lost hours and as an under-claimed deduction.</p>
+        <a href="mileage-tax-deduction-lawn-care-business.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+    </div>
+
+    <p class="section-heading">Operations &amp; Scheduling</p>
+    <div class="blog-grid">
+      <article class="blog-card">
+        <p class="blog-card-meta">Scheduling</p>
+        <h2 class="blog-card-title">Route Planning and Scheduling for a One-Truck Business</h2>
+        <p class="blog-card-excerpt">Rebuilding your week from memory every Monday wastes hours. Here's how cadence and geography-based routing fix it.</p>
+        <a href="lawn-care-route-planning-scheduling.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Operations</p>
+        <h2 class="blog-card-title">Rain Delays: How to Reschedule Without Losing Revenue</h2>
+        <p class="blog-card-excerpt">A rained-out week doesn't have to mean lost revenue. Treat a delay as a reschedule, not a skipped week.</p>
+        <a href="rain-delays-rescheduling-lawn-care.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Customer Communication</p>
+        <h2 class="blog-card-title">Why Texting Beats Calling for a Lawn Care Business</h2>
+        <p class="blog-card-excerpt">Phone tag wastes time on both ends. A short text at the right moment gets read, answered, and paid faster.</p>
+        <a href="texting-customers-lawn-care-business.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Invoicing</p>
+        <h2 class="blog-card-title">Lawn Care Invoicing: How to Get Paid Faster</h2>
+        <p class="blog-card-excerpt">Invoicing built from tracked visits means fewer disputes and no more Sunday-night billing marathon.</p>
+        <a href="lawn-care-invoicing-get-paid-faster.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Growth</p>
+        <h2 class="blog-card-title">Growing From One Truck to Two</h2>
+        <p class="blog-card-excerpt">The system that works in your head at 15 clients breaks quietly at 50. Here's what to fix first.</p>
+        <a href="growing-from-one-truck-to-two.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+    </div>
+
+    <p class="section-heading">Getting Started</p>
+    <div class="blog-grid">
+      <article class="blog-card">
+        <p class="blog-card-meta">Getting Started</p>
+        <h2 class="blog-card-title">The Free Time Tracking App for a One-Truck Lawn Care Business</h2>
+        <p class="blog-card-excerpt">Most time-clock software is priced for crews with an office manager. Here's what a solo operator actually needs.</p>
+        <a href="free-time-tracking-app-lawn-care-business.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Productivity</p>
+        <h2 class="blog-card-title">Why Most Time-Tracking Apps Fail Field Workers</h2>
+        <p class="blog-card-excerpt">Desktop-first time trackers were built for people who sit at desks. Here's what breaks when you use them with gloves on.</p>
+        <a href="why-time-tracking-apps-fail-field-workers.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+
+      <article class="blog-card">
+        <p class="blog-card-meta">Tech</p>
+        <h2 class="blog-card-title">What Is a PWA, and Why Should You Care?</h2>
+        <p class="blog-card-excerpt">Progressive Web Apps install from your browser, work offline, and skip the app store entirely.</p>
+        <a href="what-is-a-pwa.html" class="blog-card-link">Read more &rarr;</a>
+      </article>
+    </div>
+  </div>
+
+  <div class="footer">&copy; 2026 MowClock. A <strong>1656</strong> brand.</div>
+</body>
+</html>
